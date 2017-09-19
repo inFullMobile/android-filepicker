@@ -121,6 +121,7 @@ public class FilePickerDialog extends Dialog implements AdapterView.OnItemClickL
         title = (TextView) findViewById(R.id.title);
         dir_path = (TextView) findViewById(R.id.dir_path);
         final Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setTextColor(getColor(colorInactive));
         if (negativeBtnNameStr != null) {
             cancel.setText(negativeBtnNameStr);
         }
@@ -170,13 +171,7 @@ public class FilePickerDialog extends Dialog implements AdapterView.OnItemClickL
                     select.setText(positiveBtnNameStr);
                 } else {
                     select.setEnabled(true);
-                    int color;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        color = context.getResources().getColor(colorActive, context.getTheme());
-                    } else {
-                        color = context.getResources().getColor(colorActive);
-                    }
-                    select.setTextColor(color);
+                    select.setTextColor(getColor(colorActive));
                     String button_label;
                     if (properties.selection_mode != SINGLE_MODE) {
                         button_label = positiveBtnNameStr + " (" + size + ") ";
@@ -197,6 +192,16 @@ public class FilePickerDialog extends Dialog implements AdapterView.OnItemClickL
 
         //Title method added in version 1.0.5
         setTitle();
+    }
+
+    private Integer getColor(int resId) {
+        int color;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            color = context.getResources().getColor(resId, context.getTheme());
+        } else {
+            color = context.getResources().getColor(resId);
+        }
+        return color;
     }
 
     private void setTitle() {
